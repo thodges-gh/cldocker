@@ -1,0 +1,34 @@
+version: '3'
+services:
+  geth:
+    hostname: geth
+    image: ethereum/client-go:latest
+    tty: true
+    volumes:
+      - "./ethereum:/ethereum"
+    ports:
+    - "8546:8546"
+    deploy:
+      restart_policy:
+          condition: on-failure
+    command: ["--testnet", "--light", "--ws", "--wsaddr", "geth", "--wsport", "8546", "--wsorigins=*", "--datadir", "/ethereum"]
+    restart: always
+  chainlink:
+    hostname: chainlink
+    image: smartcontract/chainlink:latest
+    tty: true
+    ports:
+    - "6688:6688"
+    deploy:
+      restart_policy:
+          condition: on-failure
+    volumes:
+      - "./chainlink:/chainlink"
+    environment:
+      - ETH_URL=ws://geth:8546
+    env_file: .env
+    command: ["node", "-p", "${KEYSTORE_PASS}"]
+    restart: always
+volumes:
+  chainlink:
+  ethereum:
