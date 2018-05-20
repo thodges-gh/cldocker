@@ -18,3 +18,9 @@ $ docker-compose up
 ```
 
 Re-run `docker-compose up` after Geth's sync is complete to free up memory.
+
+## Interacting with the Node
+
+```bash
+$ docker exec cldocker_chainlink_1 chainlink h
+```
