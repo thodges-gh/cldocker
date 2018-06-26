@@ -11,7 +11,8 @@
 ```bash
 $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
-$ export KEYSTORE_PASS="my super secure password"
+$ docker swarm init
+$ docker secret create wallet_password .password
 $ docker-compose up
 ```
 
