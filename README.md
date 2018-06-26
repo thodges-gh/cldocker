@@ -79,7 +79,8 @@ Log in again through ssh. Test that Docker works without sudo by running `docker
 ```bash
 $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
-$ export KEYSTORE_PASS="my super secure password"
+$ docker swarm init
+$ docker secret create wallet_password .password
 $ screen
 $ docker-compose up
 ```

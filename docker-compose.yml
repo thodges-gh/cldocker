@@ -1,4 +1,4 @@
-version: '3'
+version: '3.1'
 services:
   geth:
     hostname: geth
@@ -8,9 +8,6 @@ services:
       - "./ethereum:/ethereum"
     ports:
     - "8546:8546"
-    deploy:
-      restart_policy:
-          condition: on-failure
     command: ["--testnet", "--light", "--ws", "--wsaddr", "geth", "--wsport", "8546", "--wsorigins=*", "--datadir", "/ethereum"]
     restart: always
   chainlink:
@@ -19,16 +16,19 @@ services:
     tty: true
     ports:
     - "6688:6688"
-    deploy:
-      restart_policy:
-          condition: on-failure
+    - "6689:6689"
     volumes:
       - "./chainlink:/chainlink"
     environment:
       - ETH_URL=ws://geth:8546
     env_file: .env
-    command: ["node", "-p", "${KEYSTORE_PASS}"]
+    secrets:
+      - wallet_password
+    command: ["node", "-p", "/run/secrets/wallet_password"]
     restart: always
 volumes:
   chainlink:
   ethereum:
+secrets:
+  wallet_password:
+    file: ./.password
