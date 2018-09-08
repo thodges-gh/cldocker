@@ -8,7 +8,7 @@ services:
       - "./ethereum:/ethereum"
     ports:
     - "8546:8546"
-    command: ["--testnet", "--light", "--ws", "--wsaddr", "geth", "--wsport", "8546", "--wsorigins=*", "--datadir", "/ethereum"]
+    command: ["--testnet", "--syncmode", "light", "--ws", "--wsaddr", "geth", "--wsport", "8546", "--wsorigins=*", "--datadir", "/ethereum"]
     restart: always
   chainlink:
     hostname: chainlink
@@ -16,7 +16,6 @@ services:
     tty: true
     ports:
     - "6688:6688"
-    - "6689:6689"
     volumes:
       - "./chainlink:/chainlink"
     environment:
@@ -24,7 +23,8 @@ services:
     env_file: .env
     secrets:
       - wallet_password
-    command: ["node", "-p", "/run/secrets/wallet_password"]
+      - api_password
+    command: ["node", "-p", "/run/secrets/wallet_password", "-a", "/run/secrets/api_password"]
     restart: always
 volumes:
   chainlink:
@@ -32,3 +32,5 @@ volumes:
 secrets:
   wallet_password:
     file: ./.password
+  api_password:
+    file: ./.api

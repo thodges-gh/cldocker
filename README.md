@@ -13,14 +13,17 @@ $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
 $ docker swarm init
 $ docker secret create wallet_password .password
+$ docker secret create api_password .api
 $ docker-compose up
 ```
 
-It may take a few minutes to begin syncing (meanwhile the Chainlink node is constantly restarting) and you may need to `tail` the Chainlink node's log file to view the output. 
+It may take a few minutes to begin syncing (meanwhile the Chainlink node is constantly restarting) and you may need to `tail` the Chainlink node's log file or attach to the container to view the output. 
 
 Take note of your ETH address, you will need to send some ether to it in order to pay for gas.
 
 ## Interacting with the Node
+
+Navigate to http://localhost:6688/ to view the web interface. Use the same credentials that you stored in the `.api` file to sign in.
 
 #### Running commands
 
