@@ -11,7 +11,7 @@
 ```bash
 $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
-// create or edit your .env, .api, and .password files now
+/* create or edit your .env, .api, and .password files now */
 $ docker swarm init
 $ docker secret create wallet_password .password
 $ docker secret create api_password .api
