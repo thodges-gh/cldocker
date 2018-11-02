@@ -4,7 +4,8 @@ run_command() {
     "$@"
     local status=$?
     if [ $status -ne 0 ]; then
-        echo "Permissions required to run $1 command" >&2
+      echo "Permissions required to run $1 command" >&2
+      exit 0
     fi
     return $status
 }
