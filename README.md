@@ -2,8 +2,8 @@
 
 ## Prerequisites
 
-- [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 - [Docker](https://docs.docker.com/install/#supported-platforms)
+- [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 - git
 
 ## General Setup and Run
@@ -11,14 +11,11 @@
 ```bash
 $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
-/* create or edit your .env, .api, and .password files now */
-$ docker swarm init
-$ docker secret create wallet_password .password
-$ docker secret create api_password .api
+$ ./setup.sh
 $ docker-compose up
 ```
 
-It may take a few minutes to begin syncing (meanwhile the Chainlink node is constantly restarting) and you may need to `tail` the Chainlink node's log file or attach to the container to view the output. 
+The included `.env` file is set up for use on the Ropsten test network. If you wish to change networks, you will need to modify the `ETH_CHAIN_ID` and `LINK_CONTRACT_ADDRESS` values, as well as the argument for the command to run Geth in the `docker-compose.yml` file. It may take a few minutes to begin syncing (meanwhile the Chainlink node is constantly restarting) and you may need to `tail` the Chainlink node's log file or attach to the container to view the output. 
 
 Take note of your ETH address, you will need to send some ether to it in order to pay for gas.
 
