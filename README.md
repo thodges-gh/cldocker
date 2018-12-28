@@ -60,10 +60,6 @@ $ sudo yum install -y git curl screen openssl
 
 #### Install Docker Compose and Setup Docker:
 
-Follow the instructions [here](https://docs.docker.com/compose/install/#install-compose).
-
-Then run the following:
-
 ```bash
 $ sudo amazon-linux-extras install docker
 $ sudo systemctl start docker
@@ -72,5 +68,7 @@ $ exit
 ```
 
 Log in again through ssh. Test that Docker works without sudo by running `docker ps`.
+
+Then follow the instructions [here](https://docs.docker.com/compose/install/#install-compose) to install and setup docker-compose.
 
 Follow the instructions under [General Setup and Run](#general-setup-and-run).
