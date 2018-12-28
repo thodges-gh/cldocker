@@ -22,7 +22,7 @@ Take note of your ETH address, you will need to send some ether to it in order t
 
 ## Interacting with the Node
 
-Navigate to http://localhost:6688/ to view the web interface. Use the same credentials that you stored in the `.api` file to sign in.
+Navigate to http://localhost:6689/ to view the web interface. Use the same credentials that you stored in the `.api` file to sign in.
 
 #### Running commands
 
@@ -36,12 +36,6 @@ Attach to the Geth console:
 
 ```bash
 $ docker-compose exec geth geth attach /ethereum/geth.ipc
-```
-
-#### Watching logs
-
-```bash
-$ tail -f chainlink/log.jsonl
 ```
 
 ## Updating Container Images
@@ -61,29 +55,22 @@ Deploy Amazon Linux AMI instance and connect
 #### Install base programs:
 
 ```bash
-$ sudo yum install -y git curl screen docker
+$ sudo yum install -y git curl screen openssl
 ```
 
 #### Install Docker Compose and Setup Docker:
 
+Follow the instructions [here](https://docs.docker.com/compose/install/#install-compose).
+
+Then run the following:
+
 ```bash
-$ sudo curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose
-$ sudo chmod +x /usr/local/bin/docker-compose
-$ sudo /etc/init.d/docker start
-$ sudo chkconfig docker on
+$ sudo amazon-linux-extras install docker
+$ sudo systemctl start docker
 $ sudo gpasswd -a $USER docker
-$ logout
+$ exit
 ```
 
 Log in again through ssh. Test that Docker works without sudo by running `docker ps`.
 
-#### Clone and enter the repo:
-
-```bash
-$ git clone https://github.com/thodges-gh/cldocker.git
-$ cd cldocker
-$ docker swarm init
-$ docker secret create wallet_password .password
-$ screen
-$ docker-compose up
-```
+Follow the instructions under [General Setup and Run](#general-setup-and-run).
