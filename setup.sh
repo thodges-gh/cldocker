@@ -19,7 +19,7 @@ echo "$wallet_password" > ".password"
 api_user=$(systemd-ask-password "Enter the API email:")
 api_password=$(systemd-ask-password "Enter the API password:")
 
-echo "$api_user"$'\r'"$api_password" > ".api"
+echo "$api_user"$'\r\n'"$api_password" > ".api"
 
 run_command docker secret create wallet_password .password
 run_command docker secret create api_password .api
