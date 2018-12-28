@@ -15,7 +15,7 @@ services:
     image: smartcontract/chainlink:latest
     tty: true
     ports:
-    - "6688:6688"
+    - "6689:6689"
     volumes:
       - "./chainlink:/chainlink"
     environment:
