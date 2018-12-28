@@ -1,2 +1,3 @@
-*
-!.gitignore
+db.bolt
+log.jsonl
+secret
