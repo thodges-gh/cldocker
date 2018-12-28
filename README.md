@@ -9,6 +9,11 @@
 
 ## General Setup and Run
 
+Follow the link below for system-specific instructions
+- [Amazon AWS](#amazon-aws-instructions)
+
+Then run the following commands:
+
 ```bash
 $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
@@ -16,13 +21,13 @@ $ ./setup.sh
 $ docker-compose up
 ```
 
-The included `.env` file is set up for use on the Ropsten test network. If you wish to change networks, you will need to modify the `ETH_CHAIN_ID` and `LINK_CONTRACT_ADDRESS` values, as well as the argument for the command to run Geth in the `docker-compose.yml` file. It may take a few minutes to begin syncing (meanwhile the Chainlink node is constantly restarting) and you may need to `tail` the Chainlink node's log file or attach to the container to view the output. 
+The included `.env` file is set up for use on the Ropsten test network. If you wish to change networks, you will need to modify the `ETH_CHAIN_ID` and `LINK_CONTRACT_ADDRESS` values, as well as the argument for the command to run Geth in the `docker-compose.yml` file. It may take a few minutes for the Ethereum client to begin syncing. 
 
-Take note of your ETH address, you will need to send some ether to it in order to pay for gas.
+Take note of your ETH address, you will need to send some ether to it in order to pay for gas. You can also get this from the node's Configuration page.
 
 ## Interacting with the Node
 
-Navigate to http://localhost:6689/ to view the web interface. Use the same credentials that you stored in the `.api` file to sign in.
+Navigate to http://localhost:6689/ to view the web interface. Use the same credentials that you entered in the setup script. If using a VPS, replace `localhost` with your instance's public IP.
 
 #### Running commands
 
@@ -67,7 +72,7 @@ $ sudo gpasswd -a $USER docker
 $ exit
 ```
 
-Log in again through ssh. Test that Docker works without sudo by running `docker ps`.
+Log in again through `ssh`. Test that Docker works without sudo by running `docker ps`.
 
 Then follow the instructions [here](https://docs.docker.com/compose/install/#install-compose) to install and setup docker-compose.
 
