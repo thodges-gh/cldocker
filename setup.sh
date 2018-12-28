@@ -30,3 +30,21 @@ run_command openssl req -x509 -out server.crt  -keyout server.key \
    printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 
 run_command mv server.* chainlink/tls/
+
+read -p "Custom ETH_URL (Y or N)? " answer
+
+while true
+do
+  case $answer in
+   [yY]* ) read -p "Enter the URL: " url
+           echo "Updating env file"
+           echo $'\r\n'"ETH_URL=$url" >> .env
+           echo "Done"
+           break;;
+
+   [nN]* ) exit;;
+
+   * )     echo "Enter Y or N, please."; 
+           break;;
+  esac
+done
