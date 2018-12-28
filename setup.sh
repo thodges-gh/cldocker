@@ -23,3 +23,10 @@ echo "$api_user"$'\r\n'"$api_password" > ".api"
 
 run_command docker secret create wallet_password .password
 run_command docker secret create api_password .api
+
+run_command openssl req -x509 -out server.crt  -keyout server.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
+
+run_command cp server.* chainlink/tls/

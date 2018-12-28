@@ -5,6 +5,7 @@
 - [Docker](https://docs.docker.com/install/#supported-platforms)
 - [Docker Compose](https://docs.docker.com/compose/install/#install-compose)
 - git
+- OpenSSL
 
 ## General Setup and Run
 
