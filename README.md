@@ -18,6 +18,17 @@ Then run the following commands:
 $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
 $ ./setup.sh
+```
+
+If you chose to use a custom `ETH_URL`, run the following command:
+
+```bash
+$ docker-compose -f chainlink.yml up
+```
+
+Otherwise, run:
+
+```bash
 $ docker-compose up
 ```
 
@@ -55,7 +66,7 @@ $ docker-compose up --build
 
 ## Amazon AWS Instructions
 
-Deploy Amazon Linux AMI instance and connect
+Deploy Amazon Linux 2 AMI instance and connect
 
 #### Install base programs:
 
