@@ -6,7 +6,7 @@ light = true
 [rpc]
 disable = false
 port = 8545
-interface = "local"
+interface = "all"
 apis = ["eth"]
 
 [websockets]

@@ -135,4 +135,4 @@ run_command mv server.* chainlink/tls/
 
 echo "Setup complete!"
 
-run_command $DOCKER_COMPOSE_RUN_COMMAND
+echo $DOCKER_COMPOSE_RUN_COMMAND
