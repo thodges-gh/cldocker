@@ -1,0 +1,15 @@
+version: '3.1'
+services:
+  geth:
+    hostname: eth
+    image: ethereum/client-go:stable
+    tty: true
+    volumes:
+      - "./ethereum:/ethereum"
+    ports:
+    - "8546:8546"
+    - "30303:30303"
+    command: ["--config", "/ethereum/geth.toml"]
+    restart: always
+volumes:
+  ethereum:
