@@ -9,7 +9,7 @@ services:
     ports:
     - "8546:8546"
     - "30303:30303"
-    command: ["--config", "/ethereum/geth.toml"]
+    command: ["--testnet", "--config", "/ethereum/geth.toml"]
     restart: always
     networks:
       cl-net:

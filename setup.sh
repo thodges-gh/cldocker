@@ -61,7 +61,7 @@ if [[ $custom == [nN]* ]]
 then
   # Sync mode
   while true; do
-    read -p "Light client [Y]? " light
+    read -p "Light client? [Y]: " light
     [ -z "$light" ] && light=Y
     case $light in
     [yY]* ) break;;
@@ -80,6 +80,8 @@ then
   then
     sed "s/NetworkId = 3/NetworkId = 4/g" ./ethereum/geth.toml > ./ethereum/geth.toml.new
     mv ./ethereum/geth.toml.new ./ethereum/geth.toml
+    sed "s/--testnet/--rinkeby/g" ./geth.yml > ./geth.yml.new
+    mv ./geth.yml.new ./geth.yml
     DOCKER_COMPOSE_RUN_COMMAND="$DOCKER_COMPOSE_RUN_COMMAND -f geth.yml up"
 
   # Populate for Kovan
@@ -93,8 +95,8 @@ then
   else
     # Geth or Parity
     while true; do
-    read -p "Geth or Parity? [G]eth " gepa
-    [ -z "$gepa" ] && gepa=G
+    read -p "Geth or Parity? [P]arity: " gepa
+    [ -z "$gepa" ] && gepa=P
     case $gepa in
     [gG]* ) DOCKER_COMPOSE_RUN_COMMAND="$DOCKER_COMPOSE_RUN_COMMAND -f geth.yml up"
             break;;
