@@ -1,2 +1,9 @@
+cache/
+chains/
+chains_light/
 geth/
+keys/
 keystore/
+network/
+signer/
+*.ipc

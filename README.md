@@ -20,7 +20,7 @@ $ cd cldocker
 $ ./setup.sh
 ```
 
-The setup script will display several prompts, each with a default value, and will start the node for you when complete.
+The setup script will display several prompts, each with a default value, and will start the node for you when complete. If you take the defaults for all the questions, it will spin up a Chainlink node and Parity light client on Ropsten when complete.
 
 Take note of your ETH address, you will need to send some ether to it in order to pay for gas. You can also get this from the node's Configuration page.
 
