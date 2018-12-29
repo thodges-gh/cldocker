@@ -1,0 +1,14 @@
+[parity]
+chain = "ropsten"
+base_path = "/ethereum"
+light = true
+
+[websockets]
+disable = false
+port = 8546
+interface = "all"
+origins = ["all"]
+apis = ["eth", "pubsub"]
+
+[footprint]
+cache_size = 128

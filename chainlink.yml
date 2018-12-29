@@ -14,8 +14,12 @@ services:
       - api_password
     command: ["node", "-p", "/run/secrets/wallet_password", "-a", "/run/secrets/api_password"]
     restart: always
+    networks:
+      - cl-net
 volumes:
   chainlink:
+networks:
+  cl-net:
 secrets:
   wallet_password:
     file: ./.password

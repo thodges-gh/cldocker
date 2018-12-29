@@ -1,0 +1,21 @@
+version: '3.1'
+services:
+  eth:
+    hostname: eth
+    image: parity/parity:stable
+    tty: true
+    volumes:
+      - "./ethereum:/ethereum"
+    ports:
+    - "8546:8546"
+    - "30303:30303"
+    command: ["--config", "/ethereum/parity.toml"]
+    restart: always
+    networks:
+      cl-net:
+        aliases:
+          - eth
+volumes:
+  ethereum:
+networks:
+  cl-net:

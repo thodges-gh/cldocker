@@ -20,19 +20,7 @@ $ cd cldocker
 $ ./setup.sh
 ```
 
-If you chose to use a custom `ETH_URL`, run the following command:
-
-```bash
-$ docker-compose -f chainlink.yml up
-```
-
-Otherwise, run:
-
-```bash
-$ docker-compose up
-```
-
-The included `.env` file is set up for use on the Ropsten test network. If you wish to change networks, you will need to modify the `ETH_CHAIN_ID` and `LINK_CONTRACT_ADDRESS` values, as well as the argument for the command to run Geth in the `docker-compose.yml` file. It may take a few minutes for the Ethereum client to begin syncing. 
+The setup script will display several prompts, each with a default value, and will start the node for you when complete. If you take the defaults for all the questions, it will spin up a Chainlink node and Parity light client on Ropsten when complete.
 
 Take note of your ETH address, you will need to send some ether to it in order to pay for gas. You can also get this from the node's Configuration page.
 
