@@ -72,6 +72,6 @@ $ exit
 
 Log in again through `ssh`. Test that Docker works without sudo by running `docker ps`.
 
-Then follow the instructions [here](https://docs.docker.com/compose/install/#install-compose) to install and setup docker-compose.
+Then follow the instructions [here](https://docs.docker.com/compose/install/#install-compose) to install and setup docker-compose. Select the "Linux" tab under the Install Compose header.
 
 Follow the instructions under [General Setup and Run](#general-setup-and-run).

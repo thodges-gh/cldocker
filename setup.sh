@@ -83,14 +83,14 @@ then
     mv ./ethereum/geth.toml.new ./ethereum/geth.toml
     sed "s/--testnet/--rinkeby/g" ./geth.yml > ./geth.yml.new
     mv ./geth.yml.new ./geth.yml
-    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f geth.yml -f chainlink.yml up --scale chainlink=0"
+    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f geth.yml up -d"
 
   # Populate for Kovan
   elif [ $network -eq 42 ]
   then
     sed "s/ropsten/kovan/g" ./ethereum/parity.toml > ./ethereum/parity.toml.new
     mv ./ethereum/parity.toml.new ./ethereum/parity.toml
-    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f parity.yml -f chainlink.yml up --scale chainlink=0"
+    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f parity.yml up -d"
 
   # Set up Ropsten
   else
@@ -99,10 +99,10 @@ then
     read -p "Geth or Parity? [P]arity: " gepa
     [ -z "$gepa" ] && gepa=P
     case $gepa in
-    [gG]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f geth.yml -f chainlink.yml up --scale chainlink=0"
+    [gG]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f geth.yml up -d"
             break;;
 
-    [pP]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f parity.yml -f chainlink.yml up --scale chainlink=0"
+    [pP]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f parity.yml up -d"
             break;;
 
     * )     echo "Enter G or P, please."; 
@@ -140,5 +140,6 @@ run_command $DOCKER_COMPOSE_RUN_COMMAND
 
 if [[ $custom == [nN]* ]]
 then
-  ./syncing.sh
+  . ./syncing.sh
+  sync
 fi
