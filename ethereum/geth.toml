@@ -5,6 +5,9 @@ DatabaseCache = 768
 
 [Node]
 DataDir = "/ethereum"
+HTTPHost = "0.0.0.0"
+HTTPPort = 8545
+HTTPModules = ["eth", "net"]
 WSHost = "0.0.0.0"
 WSPort = 8546
 WSOrigins = ["*"]

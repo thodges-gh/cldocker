@@ -7,6 +7,7 @@ services:
     volumes:
       - "./ethereum:/ethereum"
     ports:
+    - "8545:8545"
     - "8546:8546"
     - "30303:30303"
     command: ["--testnet", "--config", "/ethereum/geth.toml"]

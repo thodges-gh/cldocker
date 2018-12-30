@@ -45,9 +45,8 @@ $ docker-compose exec geth geth attach /ethereum/geth.ipc
 ## Updating Container Images
 
 ```bash
-$ docker-compose stop
 $ docker-compose pull
-$ docker-compose up --build
+$ docker-compose -f chainlink.yml up
 ```
 
 ---
@@ -73,6 +72,6 @@ $ exit
 
 Log in again through `ssh`. Test that Docker works without sudo by running `docker ps`.
 
-Then follow the instructions [here](https://docs.docker.com/compose/install/#install-compose) to install and setup docker-compose.
+Then follow the instructions [here](https://docs.docker.com/compose/install/#install-compose) to install and setup docker-compose. Select the "Linux" tab under the Install Compose header.
 
 Follow the instructions under [General Setup and Run](#general-setup-and-run).
