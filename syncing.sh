@@ -11,8 +11,9 @@ while true; do
   BLOCK=$`curl -s -X POST -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":2}' http://localhost:8545`
   if [[ $BLOCK != *"\"result\":\"0x0\""* ]]
   then
-    break;;
+    break;
   fi
+  echo "Waiting on syncing to start: $BLOCK"
   sleep 10
 done
 
@@ -23,9 +24,12 @@ while true; do
   STATUS=$`curl -s -X POST -H 'Content-Type: application/json' --data '{"jsonrpc":"2.0","method":"eth_syncing","params":[],"id":1}' http://localhost:8545`
   if [[ $STATUS == *"\"result\":false"* ]]
   then
-    break;;
+    break;
   fi
+  echo "Waiting on syncing to complete: $STATUS"
   sleep 10
 done
 
 echo "Syncing is complete!"
+
+docker-compose -f chainlink.yml up

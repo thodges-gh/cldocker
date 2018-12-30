@@ -6,7 +6,6 @@ RINKEBY_NETWORK="ETH_CHAIN_ID=4
 LINK_CONTRACT_ADDRESS=0x01BE23585060835E02B77ef475b0Cc51aA1e0709"
 KOVAN_NETWORK="ETH_CHAIN_ID=42
 LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088"
-DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f chainlink.yml"
 
 run_command() {
     "$@"
@@ -82,14 +81,14 @@ then
     mv ./ethereum/geth.toml.new ./ethereum/geth.toml
     sed "s/--testnet/--rinkeby/g" ./geth.yml > ./geth.yml.new
     mv ./geth.yml.new ./geth.yml
-    DOCKER_COMPOSE_RUN_COMMAND="$DOCKER_COMPOSE_RUN_COMMAND -f geth.yml up"
+    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f geth.yml up"
 
   # Populate for Kovan
   elif [ $network -eq 42 ]
   then
     sed "s/ropsten/kovan/g" ./ethereum/parity.toml > ./ethereum/parity.toml.new
     mv ./ethereum/parity.toml.new ./ethereum/parity.toml
-    DOCKER_COMPOSE_RUN_COMMAND="$DOCKER_COMPOSE_RUN_COMMAND -f parity.yml up"
+    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f parity.yml up"
 
   # Set up Ropsten
   else
@@ -98,10 +97,10 @@ then
     read -p "Geth or Parity? [P]arity: " gepa
     [ -z "$gepa" ] && gepa=P
     case $gepa in
-    [gG]* ) DOCKER_COMPOSE_RUN_COMMAND="$DOCKER_COMPOSE_RUN_COMMAND -f geth.yml up"
+    [gG]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f geth.yml up"
             break;;
 
-    [pP]* ) DOCKER_COMPOSE_RUN_COMMAND="$DOCKER_COMPOSE_RUN_COMMAND -f parity.yml up"
+    [pP]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f parity.yml up"
             break;;
 
     * )     echo "Enter G or P, please."; 
@@ -109,7 +108,7 @@ then
   done
   fi
 else
-  DOCKER_COMPOSE_RUN_COMMAND="$DOCKER_COMPOSE_RUN_COMMAND up"
+  DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f chainlink.yml up"
 fi
 
 run_command docker swarm init
@@ -135,4 +134,9 @@ run_command mv server.* chainlink/tls/
 
 echo "Setup complete!"
 
-echo $DOCKER_COMPOSE_RUN_COMMAND
+run_command $DOCKER_COMPOSE_RUN_COMMAND
+
+if [[ $custom == [nN]* ]]
+then
+  ./syncing.sh
+fi
