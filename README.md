@@ -45,9 +45,8 @@ $ docker-compose exec geth geth attach /ethereum/geth.ipc
 ## Updating Container Images
 
 ```bash
-$ docker-compose stop
 $ docker-compose pull
-$ docker-compose up --build
+$ docker-compose -f chainlink.yml up
 ```
 
 ---

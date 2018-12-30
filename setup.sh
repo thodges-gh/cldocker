@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 ROPSTEN_NETWORK="ETH_CHAIN_ID=3
 LINK_CONTRACT_ADDRESS=0x20fe562d797a42dcb3399062ae9546cd06f63280"
 RINKEBY_NETWORK="ETH_CHAIN_ID=4
@@ -23,10 +25,10 @@ while true; do
   [ -z "$custom" ] && custom=N
   case $custom in
    [yY]* ) read -p "Enter the URL: " url
-           echo $'\r\n'"ETH_URL=$url" >> .env
+           echo $'\n'"ETH_URL=$url" >> .env
            break;;
 
-   [nN]* ) echo $'\r\n'"ETH_URL=ws://eth:8546" >> .env
+   [nN]* ) echo $'\n'"ETH_URL=ws://eth:8546" >> .env
            break;;
 
    * )     echo "Enter Y or N, please."; 
@@ -81,14 +83,14 @@ then
     mv ./ethereum/geth.toml.new ./ethereum/geth.toml
     sed "s/--testnet/--rinkeby/g" ./geth.yml > ./geth.yml.new
     mv ./geth.yml.new ./geth.yml
-    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f geth.yml up"
+    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f geth.yml -f chainlink.yml up --scale chainlink=0"
 
   # Populate for Kovan
   elif [ $network -eq 42 ]
   then
     sed "s/ropsten/kovan/g" ./ethereum/parity.toml > ./ethereum/parity.toml.new
     mv ./ethereum/parity.toml.new ./ethereum/parity.toml
-    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f parity.yml up"
+    DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f parity.yml -f chainlink.yml up --scale chainlink=0"
 
   # Set up Ropsten
   else
@@ -97,10 +99,10 @@ then
     read -p "Geth or Parity? [P]arity: " gepa
     [ -z "$gepa" ] && gepa=P
     case $gepa in
-    [gG]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f geth.yml up"
+    [gG]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f geth.yml -f chainlink.yml up --scale chainlink=0"
             break;;
 
-    [pP]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -d -f parity.yml up"
+    [pP]* ) DOCKER_COMPOSE_RUN_COMMAND="docker-compose -f parity.yml -f chainlink.yml up --scale chainlink=0"
             break;;
 
     * )     echo "Enter G or P, please."; 

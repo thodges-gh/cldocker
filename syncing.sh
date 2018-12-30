@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Looking for this:
 # {"jsonrpc":"2.0","id":1,"result":false}
 
@@ -32,4 +34,4 @@ done
 
 echo "Syncing is complete!"
 
-docker-compose -f chainlink.yml up
+docker-compose -f chainlink.yml up --scale chainlink=1

@@ -7,7 +7,7 @@ light = true
 disable = false
 port = 8545
 interface = "all"
-apis = ["eth"]
+apis = ["eth", "net"]
 
 [websockets]
 disable = false

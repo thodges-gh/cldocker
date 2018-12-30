@@ -1,0 +1,9 @@
+# This file only exists because `docker-compose pull` does not take a file argument
+version: '3.1'
+services:
+  chainlink:
+    image: smartcontract/chainlink:latest
+  geth:
+    image: ethereum/client-go:stable
+  parity:
+    image: parity/parity:stable
