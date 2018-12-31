@@ -10,8 +10,8 @@ set -e
 
 sync() {
 
-  echo "Waiting 10 seconds then will begin watching sync status!"
-  sleep 10
+  echo "Waiting 30 seconds then will begin watching sync status!"
+  sleep 30
 
   # Initial check (before syncing has started)
   while true; do
