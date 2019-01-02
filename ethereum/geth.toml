@@ -1,6 +1,4 @@
 [Eth]
-NetworkId = 3
-SyncMode = "light"
 DatabaseCache = 768
 
 [Node]
