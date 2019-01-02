@@ -13,20 +13,25 @@
 Follow the link below for system-specific instructions
 - [Amazon AWS](#amazon-aws-instructions)
 
+Clone this repo and enter the directory:
+
+```bash
+git clone https://github.com/thodges-gh/cldocker.git
+cd cldocker
+```
+
 Then run the following commands:
 
 ```bash
-$ git clone https://github.com/thodges-gh/cldocker.git
-$ cd cldocker
-$ pip3 install --user -r requirements.txt
-$ python3 main.py
+pip3 install --user -r requirements.txt
+python3 main.py
 ```
 
-If you have Make installed, you can simply run the following after entering the directory:
+Or if you have Make installed, you can simply run the following after entering the directory:
 
 ```bash
-$ make install
-$ make setup
+make install
+make setup
 ```
 
 The setup script will display several prompts, each with a default value, and will start the node for you when complete. If you take the defaults for all the questions, it will spin up a Parity light client on Ropsten and prompt you for information about the node (passwords and API user).
@@ -44,6 +49,7 @@ You can follow the logs of each container by first running `docker ps`, then `do
 - Necessities
 	- Sanitize/check user input
 	- Refactor/clean up code
+	- Add instructions for more VPS providers
 - Tests:
 	- User input
 	- More container running scenarios
@@ -62,16 +68,16 @@ Deploy Amazon Linux 2 AMI instance and connect
 #### Install base programs:
 
 ```bash
-$ sudo yum install -y git curl screen openssl make python3
+sudo yum install -y git curl screen openssl make python3
 ```
 
 #### Install Docker Compose and Setup Docker:
 
 ```bash
-$ sudo amazon-linux-extras install docker
-$ sudo systemctl start docker
-$ sudo gpasswd -a $USER docker
-$ exit
+sudo amazon-linux-extras install docker
+sudo systemctl start docker
+sudo gpasswd -a $USER docker
+exit
 ```
 
 Log in again through `ssh`. Test that Docker works without sudo by running `docker ps`.
