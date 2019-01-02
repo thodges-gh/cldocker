@@ -1,7 +1,5 @@
 [parity]
-chain = "ropsten"
 base_path = "/ethereum"
-light = true
 
 [rpc]
 disable = false
