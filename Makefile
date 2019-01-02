@@ -1,8 +1,8 @@
 install:
-	pip install -r requirements.txt
+	pip3 install --user -r requirements.txt
 
 setup:
-	python main.py
+	python3 main.py
 
 test:
 	py.test tests -v

@@ -1,4 +1,4 @@
-# Run Chainlink & Geth with Docker Compose
+# Run Chainlink & an Ethereum client with Docker
 
 ## Prerequisites
 
@@ -18,24 +18,40 @@ Then run the following commands:
 ```bash
 $ git clone https://github.com/thodges-gh/cldocker.git
 $ cd cldocker
-$ pip3 install -r requirements.txt
-$ python main.py
+$ pip3 install --user -r requirements.txt
+$ python3 main.py
 ```
 
-If you have Make install, you can simply run the following after entering the directory:
+If you have Make installed, you can simply run the following after entering the directory:
 
 ```bash
 $ make install
 $ make setup
 ```
 
-The setup script will display several prompts, each with a default value, and will start the node for you when complete. If you take the defaults for all the questions, it will spin up a Chainlink node and Parity light client on Ropsten when complete.
+The setup script will display several prompts, each with a default value, and will start the node for you when complete. If you take the defaults for all the questions, it will spin up a Parity light client on Ropsten and prompt you for information about the node (passwords and API user).
 
 ## Interacting with the Node
 
 Navigate to http://localhost:6689/ to view the web interface. Use the same credentials that you entered in the setup script. If using a VPS, replace `localhost` with your instance's public IP.
 
 Take note of your ETH address (get it from the Configuration page of the UI), you will need to send some ether to it in order to pay for gas. You can also get this from the node's Configuration page.
+
+You can follow the logs of each container by first running `docker ps`, then `docker logs -f container_name`.
+
+## TODO
+
+- Necessities
+	- Sanitize/check user input
+	- Refactor/clean up code
+- Tests:
+	- User input
+	- More container running scenarios
+	- More configuration scenarios
+- Features:
+	- Delay start of Chainlink node until Ethereum client is synced
+	- Tools for managing containers
+	- Ability to perform a seamless upgrade
 
 ---
 
