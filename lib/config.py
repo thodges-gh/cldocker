@@ -27,7 +27,7 @@ class Config:
 
 	def set_eth(self):
 		custom_url = self.prompt("Do you want to use a custom ETH_URL? [N]: ", "n", self.valid_yesorno_answers)
-		if custom_url.lower() == "y":
+		if custom_url[:1].lower() == "y":
 			self.eth = False
 
 	def set_url(self):
@@ -37,14 +37,17 @@ class Config:
 		self.url = "ETH_URL=ws://" + ip + ":8546"
 
 	def set_chain(self):
-		self.chain = self.prompt("What chain would you like? [Ropsten]: ", "ropsten", self.valid_chain_answers)
-		if self.chain.lower() == "ropsten":
+		chain_answer = self.prompt("What chain would you like? [Ropsten]: ", "ropsten", self.valid_chain_answers)
+		if chain_answer.lower() == "ropsten" or chain_answer.lower() == "3" or chain_answer.lower() == "testnet":
+			self.chain = "ropsten"
 			self.chain_id = "ETH_CHAIN_ID=3"
 			self.link = "LINK_CONTRACT_ADDRESS=0x20fe562d797a42dcb3399062ae9546cd06f63280"
-		elif self.chain.lower() == "rinkeby":
+		elif chain_answer.lower() == "rinkeby" or chain_answer.lower() == "4":
+			self.chain = "rinkeby"
 			self.chain_id = "ETH_CHAIN_ID=4"
 			self.link = "LINK_CONTRACT_ADDRESS=0x01BE23585060835E02B77ef475b0Cc51aA1e0709"
-		elif self.chain.lower() == "kovan":
+		elif chain_answer.lower() == "kovan" or chain_answer.lower() == "42":
+			self.chain = "kovan"
 			self.chain_id = "ETH_CHAIN_ID=42"
 			self.link = "LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088"
 
