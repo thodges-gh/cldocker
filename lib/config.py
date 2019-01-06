@@ -2,6 +2,10 @@
 
 class Config:
 
+	valid_yesorno_answers = ["y", "n", "yes", "no"]
+	valid_chain_answers = ["3", "4", "42", "ropsten", "rinkeby", "kovan", "testnet"]
+	valid_client_answers = ["geth", "parity"]
+
 	def __init__(self, defaults):
 		self.defaults = defaults
 		self.eth = True
@@ -22,7 +26,7 @@ class Config:
 			self.set_syncmode()
 
 	def set_eth(self):
-		custom_url = input("Do you want to use a custom ETH_URL? [N]: ") or "N"
+		custom_url = self.prompt("Do you want to use a custom ETH_URL? [N]: ", "n", self.valid_yesorno_answers)
 		if custom_url.lower() == "y":
 			self.eth = False
 
@@ -33,7 +37,7 @@ class Config:
 		self.url = "ETH_URL=ws://" + ip + ":8546"
 
 	def set_chain(self):
-		self.chain = input("What chain would you like? [Ropsten]: ") or "Ropsten"
+		self.chain = self.prompt("What chain would you like? [Ropsten]: ", "ropsten", self.valid_chain_answers)
 		if self.chain.lower() == "ropsten":
 			self.chain_id = "ETH_CHAIN_ID=3"
 			self.link = "LINK_CONTRACT_ADDRESS=0x20fe562d797a42dcb3399062ae9546cd06f63280"
@@ -50,13 +54,24 @@ class Config:
 		elif self.chain.lower() == "kovan":
 			self.client = "parity"
 		else:
-			self.client = input("What client would you like, Geth or Parity? [Parity]: ") or "Parity"
+			self.client = self.prompt("What client would you like, Geth or Parity? [Parity]: ", "parity", self.valid_client_answers)
 
 	def set_syncmode(self):
-		self.syncmode = input("Light client? [Y]: ") or "Y"
+		yn_syncmode = self.prompt("Light client? [Y]: ", "y", self.valid_yesorno_answers)
+		if yn_syncmode[:1].lower() == "y":
+			self.syncmode = "light"
+		else:
+			self.syncmode = "full"
 
 	def write_config(self):
 		with open(".env", "a") as env_file:
 			env_file.write(self.url + "\n")
 			env_file.write(self.chain_id + "\n")
 			env_file.write(self.link + "\n")
+
+	def prompt(self, question, default, answer_list):
+		answer = input(question) or default
+		if answer.lower() in answer_list:
+			return answer.lower()
+		else:
+			self.prompt(question, default, answer_list)
