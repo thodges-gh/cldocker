@@ -4,9 +4,25 @@ from lib.chainlink import ChainlinkNode
 from lib.geth import Geth
 from lib.parity import Parity
 from lib.config import Config
-import subprocess
+import subprocess, sys
 
 def main():
+	if sys.argv[1:]:
+		command_controller(sys.argv[1:])
+	else:
+		setup()
+
+def command_controller(*args):
+	if args[0][0].lower() == "clean":
+		clean()
+
+def clean():
+	with open(".env.example") as base_env:
+		env_example = base_env.read()
+	with open(".env", "w") as new_env:
+		new_env.write(env_example)
+
+def setup():
 	config = Config(defaults=input("Do you want all the defaults? (Local, Ropsten, Parity, Light) [Y]: ") or "Y")
 	if config.defaults.lower() == "n":
 		config.set_custom_fields()

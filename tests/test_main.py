@@ -14,6 +14,15 @@ class TestMain(unittest.TestCase):
             except OSError:
                 pass
 
+    def test_clean(self):
+        with open(".env", "a") as env_file:
+            env_file.write("TEST DATA" + "\n")
+        main.clean()
+        self.assertTrue(os.path.isfile(".env"))
+        with open(".env") as env_file:
+            content = [line.rstrip('\n') for line in env_file]
+            self.assertEqual(len(content), 10)
+
     def test_generate_certs(self):
         cert_files = ["chainlink/tls/server.crt", "chainlink/tls/server.key"]
         main.generate_certs()

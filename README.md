@@ -47,11 +47,9 @@ You can follow the logs of each container by first running `docker ps`, then `do
 ## TODO
 
 - Necessities
-	- Sanitize/check user input
 	- Refactor/clean up code
 	- Add instructions for more VPS providers
 - Tests:
-	- User input
 	- More container running scenarios
 	- More configuration scenarios
 - Features:
