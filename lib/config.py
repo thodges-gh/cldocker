@@ -38,15 +38,15 @@ class Config:
 
 	def set_chain(self):
 		chain_answer = self.prompt("What chain would you like? [Ropsten]: ", "ropsten", self.valid_chain_answers)
-		if chain_answer.lower() == "ropsten" or chain_answer.lower() == "3" or chain_answer.lower() == "testnet":
+		if chain_answer.lower() == "ropsten" or chain_answer == "3" or chain_answer.lower() == "testnet":
 			self.chain = "ropsten"
 			self.chain_id = "ETH_CHAIN_ID=3"
 			self.link = "LINK_CONTRACT_ADDRESS=0x20fe562d797a42dcb3399062ae9546cd06f63280"
-		elif chain_answer.lower() == "rinkeby" or chain_answer.lower() == "4":
+		elif chain_answer.lower() == "rinkeby" or chain_answer == "4":
 			self.chain = "rinkeby"
 			self.chain_id = "ETH_CHAIN_ID=4"
 			self.link = "LINK_CONTRACT_ADDRESS=0x01BE23585060835E02B77ef475b0Cc51aA1e0709"
-		elif chain_answer.lower() == "kovan" or chain_answer.lower() == "42":
+		elif chain_answer.lower() == "kovan" or chain_answer == "42":
 			self.chain = "kovan"
 			self.chain_id = "ETH_CHAIN_ID=42"
 			self.link = "LINK_CONTRACT_ADDRESS=0xa36085F69e2889c224210F603D836748e7dC0088"
