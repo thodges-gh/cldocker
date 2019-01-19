@@ -44,14 +44,22 @@ Take note of your ETH address (get it from the Configuration page of the UI), yo
 
 You can follow the logs of each container by first running `docker ps`, then `docker logs -f container_name`.
 
+## Resetting the environment file
+
+Run the following command:
+
+```bash
+make clean
+```
+
+This will reset the environment file to its defaults. You will then need to run `make setup` again before starting nodes.
+
 ## TODO
 
 - Necessities
-	- Sanitize/check user input
 	- Refactor/clean up code
 	- Add instructions for more VPS providers
 - Tests:
-	- User input
 	- More container running scenarios
 	- More configuration scenarios
 - Features:

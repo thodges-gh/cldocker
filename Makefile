@@ -4,7 +4,10 @@ install:
 setup:
 	python3 main.py
 
+clean:
+	python3 main.py clean
+
 test:
 	py.test tests -v
 
-.PHONY: install setup test
+.PHONY: install clean setup test
