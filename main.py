@@ -17,23 +17,35 @@ def command_controller(*args):
 	if args[0][0].lower() == "clean":
 		clean()
 	elif args[0][0].lower() == "pull":
-		pull()
-	elif args[0][0].lower() == "start":
+		pull(args[0][1].lower())
+	elif args[0][0].lower() == "start-cl":
 		start_chainlink()
+	elif args[0][0].lower() == "restart-eth":
+		restart_ethereum()
 
-def pull():
+def pull(image):
 	cli = APIClient()
-	cli.pull("smartcontract/chainlink", tag="latest")
+	if image.lower() == "chainlink":
+		return cli.pull("smartcontract/chainlink", tag="latest")
+	elif image.lower() == "geth":
+		return cli.pull("ethereum/client-go", tag="stable")
+	elif image.lower() == "parity":
+		return cli.pull("parity/parity", tag="stable")
 
 def start_chainlink():
 	return ChainlinkNode()
 
-def start_ethereum(config):
+def fresh_start_ethereum(config):
 	if config.client.lower() == "parity":
-			eth_client = Parity(chain=config.chain.lower(), syncmode=config.syncmode.lower())
+		eth_client = Parity(chain=config.chain.lower(), syncmode=config.syncmode.lower())
 	elif config.client.lower() == "geth":
 		eth_client = Geth(chain=config.chain.lower(), syncmode=config.syncmode.lower())
 	return eth_client
+
+def restart_ethereum():
+	cli = APIClient()
+	for container in cli.containers(filters={"name":"eth","status":"running"}):
+		cli.restart(container)
 
 def clean():
 	with open(".env.example") as base_env:
@@ -46,7 +58,7 @@ def setup():
 	if config.defaults.lower() == "n":
 		config.set_custom_fields()
 	if config.eth:
-		eth_client = start_ethereum(config)
+		eth_client = fresh_start_ethereum(config)
 		eth_ip = eth_client.get_ip()
 		config.set_eth_ip(eth_ip)
 	config.write_config()
