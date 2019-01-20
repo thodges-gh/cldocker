@@ -17,3 +17,4 @@ class TestGeth(unittest.TestCase):
 
 	def tearDown(self):
 		self.client.container.stop()
+		self.client.container.remove()

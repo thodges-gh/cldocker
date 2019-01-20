@@ -6,7 +6,6 @@ import docker, os
 class Geth(EthClient):
 	image = "ethereum/client-go:stable"
 	command = "--datadir=/ethereum --config=/ethereum/geth.toml"
-	hostname = "eth"
 	syncmode = "--syncmode=light"
 
 	def __init__(self, chain, syncmode):
@@ -17,7 +16,7 @@ class Geth(EthClient):
 		client = docker.from_env()
 		self.container = client.containers.run(self.get_image(), self.get_command(),
 							detach=True, 
-							hostname=self.get_hostname(), 
+							name=self.get_hostname(), 
 							ports=self.get_ports(),
 							volumes=self.get_volumes(),
 							network=self.get_network())

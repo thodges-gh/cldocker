@@ -6,7 +6,6 @@ import docker, os
 class ChainlinkNode(DockerClient):
 	ports = {"6689/tcp":6689}
 	volumes = {os.path.abspath("chainlink"):{"bind":"/chainlink","mode":"rw"}}
-	hostname = "chainlink"
 	image = "smartcontract/chainlink:latest"
 	command = "n -p /chainlink/.password -a /chainlink/.api"
 
@@ -15,7 +14,6 @@ class ChainlinkNode(DockerClient):
 		client = docker.from_env()
 		self.container = client.containers.run(self.get_image(), self.get_command(),
 							detach=True,
-							hostname=self.get_hostname(),
 							environment=self.get_env(),
 							ports=self.get_ports(),
 							volumes=self.get_volumes(),
