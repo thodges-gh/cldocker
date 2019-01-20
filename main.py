@@ -28,6 +28,13 @@ def pull():
 def start_chainlink():
 	return ChainlinkNode()
 
+def start_ethereum(config):
+	if config.client.lower() == "parity":
+			eth_client = Parity(chain=config.chain.lower(), syncmode=config.syncmode.lower())
+	elif config.client.lower() == "geth":
+		eth_client = Geth(chain=config.chain.lower(), syncmode=config.syncmode.lower())
+	return eth_client
+
 def clean():
 	with open(".env.example") as base_env:
 		env_example = base_env.read()
@@ -39,10 +46,7 @@ def setup():
 	if config.defaults.lower() == "n":
 		config.set_custom_fields()
 	if config.eth:
-		if config.client.lower() == "parity":
-			eth_client = Parity(chain=config.chain.lower(), syncmode=config.syncmode.lower())
-		elif config.client.lower() == "geth":
-			eth_client = Geth(chain=config.chain.lower(), syncmode=config.syncmode.lower())
+		eth_client = start_ethereum(config)
 		eth_ip = eth_client.get_ip()
 		config.set_eth_ip(eth_ip)
 	config.write_config()
