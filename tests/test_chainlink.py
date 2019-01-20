@@ -7,7 +7,7 @@ import unittest
 class TestChainlinkNode(unittest.TestCase):
 
 	def setUp(self):
-		self.node = lib.chainlink.ChainlinkNode()
+		self.node = lib.chainlink.ChainlinkNode(6689)
 		self.config = lib.config.Config("y")
 		self.config.write_config()
 

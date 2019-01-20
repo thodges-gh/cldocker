@@ -16,7 +16,16 @@ pull-geth:
 pull-parity:
 	python3 main.py pull parity
 
+restart-eth:
+	python3 main.py restart-eth
+
+start-cl:
+	python3 main.py start-cl
+
+update-cl:
+	python3 main.py update-cl
+
 test:
 	py.test tests -v
 
-.PHONY: install setup clean pull-chainlink pull-geth pull-parity test
+.PHONY: install setup clean pull-chainlink pull-geth pull-parity restart-eth start-cl update-cl test

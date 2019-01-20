@@ -4,18 +4,18 @@ from .docker_client import DockerClient
 import docker, os
 
 class ChainlinkNode(DockerClient):
-	ports = {"6689/tcp":6689}
 	volumes = {os.path.abspath("chainlink"):{"bind":"/chainlink","mode":"rw"}}
 	image = "smartcontract/chainlink:latest"
 	command = "n -p /chainlink/.password -a /chainlink/.api"
 
-	def __init__(self):
+	def __init__(self, host_port):
 		super().__init__()
+		self.ports = {"6689/tcp":host_port}
 		client = docker.from_env()
 		self.container = client.containers.run(self.get_image(), self.get_command(),
 							detach=True,
 							environment=self.get_env(),
-							ports=self.get_ports(),
+							ports=self.ports,
 							volumes=self.get_volumes(),
 							network=self.get_network())
 

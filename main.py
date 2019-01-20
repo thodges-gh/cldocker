@@ -19,7 +19,9 @@ def command_controller(*args):
 	elif args[0][0].lower() == "pull":
 		pull(args[0][1].lower())
 	elif args[0][0].lower() == "start-cl":
-		start_chainlink()
+		update_chainlink()
+	elif args[0][0].lower() == "update-cl":
+		update_chainlink()
 	elif args[0][0].lower() == "restart-eth":
 		restart_ethereum()
 
@@ -32,8 +34,24 @@ def pull(image):
 	elif image.lower() == "parity":
 		return cli.pull("parity/parity", tag="stable")
 
-def start_chainlink():
-	return ChainlinkNode()
+def start_chainlink(host_port):
+	return ChainlinkNode(host_port)
+
+def update_chainlink():
+	pull("chainlink")
+	used_ports = []
+	containers = []
+	cli = APIClient()
+	for container in cli.containers(filters={"ancestor":"smartcontract/chainlink","status":"running"}):
+		used_ports.append(container["Ports"][1]["PublicPort"])
+		containers.append(container)
+	if len(used_ports) > 0:
+		new_container = start_chainlink(sorted(used_ports)[-1] + 1)
+		for container in containers:
+			cli.kill(container["Id"])
+	else:
+		new_container = start_chainlink(6689)
+	return new_container
 
 def fresh_start_ethereum(config):
 	if config.client.lower() == "parity":
@@ -43,9 +61,15 @@ def fresh_start_ethereum(config):
 	return eth_client
 
 def restart_ethereum():
+	containers = []
 	cli = APIClient()
 	for container in cli.containers(filters={"name":"eth","status":"running"}):
+		containers.append(container)
 		cli.restart(container)
+	if len(containers) > 0:
+		return True
+	else:
+		return False
 
 def clean():
 	with open(".env.example") as base_env:
@@ -64,7 +88,7 @@ def setup():
 	config.write_config()
 	create_secrets()
 	generate_certs()
-	cl_client = start_chainlink()
+	cl_client = start_chainlink(6689)
 
 def generate_certs():
 	subprocess.call((
