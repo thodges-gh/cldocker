@@ -4,6 +4,7 @@ from lib.chainlink import ChainlinkNode
 from lib.geth import Geth
 from lib.parity import Parity
 from lib.config import Config
+from docker import APIClient
 import subprocess, sys
 
 def main():
@@ -15,6 +16,17 @@ def main():
 def command_controller(*args):
 	if args[0][0].lower() == "clean":
 		clean()
+	elif args[0][0].lower() == "pull":
+		pull()
+	elif args[0][0].lower() == "start":
+		start_chainlink("ropsten")
+
+def pull():
+	cli = APIClient()
+	cli.pull("smartcontract/chainlink", tag="latest")
+
+def start_chainlink(chain):
+	return ChainlinkNode(chain=chain)
 
 def clean():
 	with open(".env.example") as base_env:
@@ -36,7 +48,7 @@ def setup():
 	config.write_config()
 	create_secrets()
 	generate_certs()
-	cl_client = ChainlinkNode(chain=config.chain.lower())
+	cl_client = start_chainlink(config.chain.lower())
 
 def generate_certs():
 	subprocess.call((

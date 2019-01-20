@@ -2,3 +2,4 @@ db.bolt
 log.jsonl
 secret
 keys/UTC*
+tls/server*
