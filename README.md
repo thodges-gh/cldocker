@@ -1,12 +1,12 @@
-# Run Chainlink & an Ethereum client with Docker
+# Run Chainlink & Ethereum containers with Docker
 
 ## Prerequisites
 
 - [Docker](https://docs.docker.com/install/#supported-platforms)
 - [Python](https://www.python.org/downloads/) (Version 3)
 - [Git](https://git-scm.com/downloads)
+- Make
 - OpenSSL (should be installed on all Linux systems)
-- (Optional but useful) Make
 
 ## General Setup and Run
 
@@ -20,14 +20,7 @@ git clone https://github.com/thodges-gh/cldocker.git
 cd cldocker
 ```
 
-Then run the following commands:
-
-```bash
-pip3 install --user -r requirements.txt
-python3 main.py
-```
-
-Or if you have Make installed, you can simply run the following after entering the directory:
+Now run the following commands after entering the directory:
 
 ```bash
 make install
