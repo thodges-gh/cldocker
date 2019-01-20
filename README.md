@@ -54,19 +54,6 @@ make clean
 
 This will reset the environment file to its defaults. You will then need to run `make setup` again before starting nodes.
 
-## TODO
-
-- Necessities
-	- Refactor/clean up code
-	- Add instructions for more VPS providers
-- Tests:
-	- More container running scenarios
-	- More configuration scenarios
-- Features:
-	- Delay start of Chainlink node until Ethereum client is synced
-	- Tools for managing containers
-	- Ability to perform a seamless upgrade
-
 ---
 
 ## Amazon AWS Instructions
