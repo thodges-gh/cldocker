@@ -1,23 +1,21 @@
 #!/usr/bin/env python3
 
-from .eth_client import EthClient
+from .docker_client import DockerClient
 import docker, os
 
-class ChainlinkNode(EthClient):
-	ports = {"6689/tcp":6689}
+class ChainlinkNode(DockerClient):
 	volumes = {os.path.abspath("chainlink"):{"bind":"/chainlink","mode":"rw"}}
-	hostname = "chainlink"
 	image = "smartcontract/chainlink:latest"
 	command = "n -p /chainlink/.password -a /chainlink/.api"
 
-	def __init__(self, chain):
-		super().__init__(chain)
+	def __init__(self, host_port):
+		super().__init__()
+		self.ports = {"6689/tcp":host_port}
 		client = docker.from_env()
 		self.container = client.containers.run(self.get_image(), self.get_command(),
 							detach=True,
-							hostname=self.get_hostname(),
 							environment=self.get_env(),
-							ports=self.get_ports(),
+							ports=self.ports,
 							volumes=self.get_volumes(),
 							network=self.get_network())
 

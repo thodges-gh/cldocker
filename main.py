@@ -4,6 +4,7 @@ from lib.chainlink import ChainlinkNode
 from lib.geth import Geth
 from lib.parity import Parity
 from lib.config import Config
+from docker import APIClient
 import subprocess, sys
 
 def main():
@@ -15,6 +16,60 @@ def main():
 def command_controller(*args):
 	if args[0][0].lower() == "clean":
 		clean()
+	elif args[0][0].lower() == "pull":
+		pull(args[0][1].lower())
+	elif args[0][0].lower() == "start-cl":
+		update_chainlink()
+	elif args[0][0].lower() == "update-cl":
+		update_chainlink()
+	elif args[0][0].lower() == "restart-eth":
+		restart_ethereum()
+
+def pull(image):
+	cli = APIClient()
+	if image.lower() == "chainlink":
+		return cli.pull("smartcontract/chainlink", tag="latest")
+	elif image.lower() == "geth":
+		return cli.pull("ethereum/client-go", tag="stable")
+	elif image.lower() == "parity":
+		return cli.pull("parity/parity", tag="stable")
+
+def start_chainlink(host_port):
+	return ChainlinkNode(host_port)
+
+def update_chainlink():
+	pull("chainlink")
+	used_ports = []
+	containers = []
+	cli = APIClient()
+	for container in cli.containers(filters={"ancestor":"smartcontract/chainlink","status":"running"}):
+		used_ports.append(container["Ports"][1]["PublicPort"])
+		containers.append(container)
+	if len(used_ports) > 0:
+		new_container = start_chainlink(sorted(used_ports)[-1] + 1)
+		for container in containers:
+			cli.kill(container["Id"])
+	else:
+		new_container = start_chainlink(6689)
+	return new_container
+
+def fresh_start_ethereum(config):
+	if config.client.lower() == "parity":
+		eth_client = Parity(chain=config.chain.lower(), syncmode=config.syncmode.lower())
+	elif config.client.lower() == "geth":
+		eth_client = Geth(chain=config.chain.lower(), syncmode=config.syncmode.lower())
+	return eth_client
+
+def restart_ethereum():
+	containers = []
+	cli = APIClient()
+	for container in cli.containers(filters={"name":"eth","status":"running"}):
+		containers.append(container)
+		cli.restart(container)
+	if len(containers) > 0:
+		return True
+	else:
+		return False
 
 def clean():
 	with open(".env.example") as base_env:
@@ -27,16 +82,13 @@ def setup():
 	if config.defaults.lower() == "n":
 		config.set_custom_fields()
 	if config.eth:
-		if config.client.lower() == "parity":
-			eth_client = Parity(chain=config.chain.lower(), syncmode=config.syncmode.lower())
-		elif config.client.lower() == "geth":
-			eth_client = Geth(chain=config.chain.lower(), syncmode=config.syncmode.lower())
+		eth_client = fresh_start_ethereum(config)
 		eth_ip = eth_client.get_ip()
 		config.set_eth_ip(eth_ip)
 	config.write_config()
 	create_secrets()
 	generate_certs()
-	cl_client = ChainlinkNode(chain=config.chain.lower())
+	cl_client = start_chainlink(6689)
 
 def generate_certs():
 	subprocess.call((
