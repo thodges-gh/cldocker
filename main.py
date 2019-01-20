@@ -19,14 +19,14 @@ def command_controller(*args):
 	elif args[0][0].lower() == "pull":
 		pull()
 	elif args[0][0].lower() == "start":
-		start_chainlink("ropsten")
+		start_chainlink()
 
 def pull():
 	cli = APIClient()
 	cli.pull("smartcontract/chainlink", tag="latest")
 
-def start_chainlink(chain):
-	return ChainlinkNode(chain=chain)
+def start_chainlink():
+	return ChainlinkNode()
 
 def clean():
 	with open(".env.example") as base_env:
@@ -48,7 +48,7 @@ def setup():
 	config.write_config()
 	create_secrets()
 	generate_certs()
-	cl_client = start_chainlink(config.chain.lower())
+	cl_client = start_chainlink()
 
 def generate_certs():
 	subprocess.call((
