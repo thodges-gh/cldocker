@@ -14,10 +14,25 @@ class TestIntegrations(unittest.TestCase):
 			self.env = base_env.read()
 		with open(".env", "w") as new_env:
 			new_env.write(self.env)
+		cli = APIClient()
+		try:
+			cli.remove_container("eth")
+		except:
+			pass
 
 	def test_fresh_start_ethereum(self):
 		container = main.fresh_start_ethereum(self.config)
 		self.assertIsNotNone(container)
+
+	def test_stop_ethereum(self):
+		container = main.fresh_start_ethereum(self.config)
+		self.assertIsNotNone(container)
+		main.stop_ethereum()
+		running_containers = []
+		cli = APIClient()
+		for container in cli.containers(filters={"status":"running"}):
+			running_containers.append(container)
+		self.assertEqual(len(running_containers), 0)
 
 	def test_restart_ethereum_running(self):
 		container = main.fresh_start_ethereum(self.config)
@@ -46,6 +61,24 @@ class TestIntegrations(unittest.TestCase):
 		self.assertIsNotNone(container)
 		new_container = main.update_chainlink()
 		self.assertEqual(new_container.ports["6689/tcp"], 6690)
+
+	def test_stop_chainlink(self):
+		self.config.write_config()
+		main.generate_certs()
+		main.input = lambda _: "user@example.com"
+		main.create_api_email()
+		main.input = lambda _: "password"
+		main.create_api_password()
+		main.create_wallet_password()
+		container = main.start_chainlink(6689)
+		self.assertEqual(container.ports["6689/tcp"], 6689)
+		self.assertIsNotNone(container)
+		main.stop_chainlink()
+		running_containers = []
+		cli = APIClient()
+		for container in cli.containers(filters={"status":"running"}):
+			running_containers.append(container)
+		self.assertEqual(len(running_containers), 0)
 
 	def tearDown(self):
 		for filename in self.files:
