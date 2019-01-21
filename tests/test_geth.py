@@ -1,11 +1,17 @@
 #!/usr/bin/env python3
 
+from docker import APIClient
 import lib.geth
 import unittest
 
 class TestGeth(unittest.TestCase):
 
 	def setUp(self):
+		cli = APIClient()
+		try:
+			cli.remove_container("eth")
+		except:
+			pass
 		self.client = lib.geth.Geth("Ropsten", "light")
 
 	def test_geth(self):
