@@ -5,7 +5,7 @@ from lib.geth import Geth
 from lib.parity import Parity
 from lib.config import Config
 from docker import APIClient
-import subprocess, sys
+import signal, subprocess, sys, threading, time
 
 def main():
 	if sys.argv[1:]:
@@ -24,10 +24,16 @@ def command_controller(*args):
 		update_chainlink()
 	elif args[0][0].lower() == "stop-cl":
 		stop_chainlink()
+	elif args[0][0].lower() == "logs-cl":
+		logs_chainlink()
 	elif args[0][0].lower() == "restart-eth":
 		restart_ethereum()
 	elif args[0][0].lower() == "stop-eth":
 		stop_ethereum()
+	elif args[0][0].lower() == "logs-eth":
+		logs_ethereum()
+	elif args[0][0].lower() == "logs":
+		logs_all()
 
 def pull(image):
 	cli = APIClient()
@@ -61,6 +67,30 @@ def stop_chainlink():
 	cli = APIClient()
 	for container in cli.containers(filters={"ancestor":"smartcontract/chainlink","status":"running"}):
 		cli.kill(container["Id"])
+
+def logs_chainlink():
+	cli = APIClient()
+	for container in cli.containers(filters={"ancestor":"smartcontract/chainlink","status":"running"}):
+		logs(container)
+
+def logs_ethereum():
+	cli = APIClient()
+	for container in cli.containers(filters={"name":"eth","status":"running"}):
+		logs(container)
+
+def logs_all():
+	cli = APIClient()
+	for container in cli.containers(filters={"status":"running"}):
+		container = threading.Thread(target=logs, args=[container])
+		container.daemon = True
+		container.start()
+	while True:
+		time.sleep(1)
+
+def logs(container):
+	cli = APIClient()
+	for byte in cli.logs(container, follow=True, stream=True, tail=100):
+		sys.stdout.write(str(byte.decode()))
 
 def fresh_start_ethereum(config):
 	if config.client.lower() == "parity":
@@ -129,6 +159,11 @@ def create_api_email():
 def create_api_password():
 	with open("chainlink/.api", "a") as api_file:
 		api_file.write(input("Enter an API password: ") + "\n")
+
+def sigint_handler(signum, frame):
+	sys.exit(0)
+
+signal.signal(signal.SIGINT, sigint_handler)
 
 if __name__ == '__main__':
     main()

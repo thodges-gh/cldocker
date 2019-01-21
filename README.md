@@ -34,7 +34,23 @@ Navigate to https://localhost:6689/ to view the web interface. Use the same cred
 
 The first thing you should do once signed in is take note of your ETH address by going to the Configuration page of the UI, you will need to send some ether to it in order for the node to pay for gas.
 
-You can follow the logs of each container by first running `docker ps`, then `docker logs -f container_name`.
+You can follow the logs of all containers by running:
+
+```bash
+make logs
+```
+
+Or to just view the output of the Chainlink container(s):
+
+```bash
+make logs-cl
+```
+
+Or just the Ethereum container:
+
+```bash
+make logs-eth
+```
 
 ## Starting and stopping
 
