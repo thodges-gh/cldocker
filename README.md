@@ -24,7 +24,7 @@ git clone https://github.com/thodges-gh/cldocker.git && cd cldocker
 Now run the following commands after entering the directory:
 
 ```bash
-make install
+make
 make setup
 ```
 

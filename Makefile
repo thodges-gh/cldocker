@@ -43,4 +43,9 @@ logs:
 test:
 	py.test tests -v
 
-.PHONY: install setup clean pull-chainlink pull-geth pull-parity restart-eth start-cl update-cl test
+info:
+	docker version
+	python3 --version
+	pip3 -V
+
+.PHONY: install setup clean pull-chainlink pull-geth pull-parity restart-eth stop-eth logs-eth start-cl update-cl stop-cl logs-cl logs test info
