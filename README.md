@@ -10,8 +10,10 @@
 
 ## General Setup and Run
 
-Follow the link below for system-specific instructions
-- [Amazon AWS](#amazon-aws-instructions)
+Follow the links below for system-specific instructions to install the prerequisites
+- [Amazon AWS Linux](#amazon-aws-instructions)
+- [Debian-based distributions](#debian-based-linux-distribution-instructions)
+- [Red Hat-based distributions](#red-hat-based-linux-distribution-instructions)
 
 Clone this repo and enter the directory:
 
@@ -130,10 +132,10 @@ Deploy Amazon Linux 2 AMI instance and connect
 #### Install base programs:
 
 ```bash
-sudo yum install -y git curl screen openssl make python3
+sudo yum install -y git curl openssl make python3
 ```
 
-#### Install Docker Compose and Setup Docker:
+#### Install and Setup Docker:
 
 ```bash
 sudo amazon-linux-extras install docker
@@ -143,5 +145,50 @@ exit
 ```
 
 Log in again through `ssh`. Test that Docker works without sudo by running `docker ps`.
+
+Follow the instructions under [General Setup and Run](#general-setup-and-run).
+
+## Debian-based Linux Distribution Instructions
+
+This should work for Debian, Ubuntu, and similar Linux distributions on any VPS provider.
+
+#### Install base programs:
+
+```bash
+sudo apt install -y git curl openssl make python3
+```
+
+#### Install and Setup Docker:
+
+```bash
+curl -sSL https://get.docker.com/ | sh
+sudo usermod -aG docker $USER
+exit
+```
+
+Log in to the machine again and test that Docker works without sudo by running `docker ps`.
+
+Follow the instructions under [General Setup and Run](#general-setup-and-run).
+
+## Red Hat-based Linux Distribution Instructions
+
+This should work for CentOS, Fedora, and similar Linux distributions on any VPS provider.
+
+#### Install base programs:
+
+```bash
+sudo yum install -y git curl openssl make python3
+```
+
+#### Install and Setup Docker:
+
+```bash
+curl -sSL https://get.docker.com/ | sh
+sudo systemctl start docker
+sudo usermod -aG docker $USER
+exit
+```
+
+Log in to the machine again and test that Docker works without sudo by running `docker ps`.
 
 Follow the instructions under [General Setup and Run](#general-setup-and-run).
