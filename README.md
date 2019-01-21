@@ -72,7 +72,7 @@ To stop running Chainlink containers:
 make stop-cl
 ```
 
-To perform a rolling upgrade:
+Performing a rolling upgrade can be done with a single command which:
 - Pulls latest image
 - Starts a new container with the port incremented
 - Stops the old container
@@ -81,7 +81,7 @@ To perform a rolling upgrade:
 make update-cl
 ```
 
-To pull the latest Chainlink image:
+To only pull the latest Chainlink image (useful to see if you even need to do an update):
 
 ```bash
 make pull-cl

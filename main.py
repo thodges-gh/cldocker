@@ -38,11 +38,11 @@ def command_controller(*args):
 def pull(image):
 	cli = APIClient()
 	if image.lower() == "chainlink":
-		return cli.pull("smartcontract/chainlink", tag="latest")
+		sys.stdout.write(cli.pull("smartcontract/chainlink", tag="latest"))
 	elif image.lower() == "geth":
-		return cli.pull("ethereum/client-go", tag="stable")
+		sys.stdout.write(cli.pull("ethereum/client-go", tag="stable"))
 	elif image.lower() == "parity":
-		return cli.pull("parity/parity", tag="stable")
+		sys.stdout.write(cli.pull("parity/parity", tag="stable"))
 
 def start_chainlink(host_port):
 	return ChainlinkNode(host_port)
@@ -61,7 +61,7 @@ def update_chainlink():
 			cli.kill(container["Id"])
 	else:
 		new_container = start_chainlink(6689)
-	return new_container
+	sys.stdout.write(new_container.container.name + "\n")
 
 def stop_chainlink():
 	cli = APIClient()
