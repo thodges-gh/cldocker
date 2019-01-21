@@ -22,8 +22,12 @@ def command_controller(*args):
 		update_chainlink()
 	elif args[0][0].lower() == "update-cl":
 		update_chainlink()
+	elif args[0][0].lower() == "stop-cl":
+		stop_chainlink()
 	elif args[0][0].lower() == "restart-eth":
 		restart_ethereum()
+	elif args[0][0].lower() == "stop-eth":
+		stop_ethereum()
 
 def pull(image):
 	cli = APIClient()
@@ -53,6 +57,11 @@ def update_chainlink():
 		new_container = start_chainlink(6689)
 	return new_container
 
+def stop_chainlink():
+	cli = APIClient()
+	for container in cli.containers(filters={"ancestor":"smartcontract/chainlink","status":"running"}):
+		cli.kill(container["Id"])
+
 def fresh_start_ethereum(config):
 	if config.client.lower() == "parity":
 		eth_client = Parity(chain=config.chain.lower(), syncmode=config.syncmode.lower())
@@ -70,6 +79,11 @@ def restart_ethereum():
 		return True
 	else:
 		return False
+
+def stop_ethereum():
+	cli = APIClient()
+	for container in cli.containers(filters={"name":"eth","status":"running"}):
+		cli.stop(container)
 
 def clean():
 	with open(".env.example") as base_env:

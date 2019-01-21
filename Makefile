@@ -19,11 +19,17 @@ pull-parity:
 restart-eth:
 	python3 main.py restart-eth
 
+stop-eth:
+	python3 main.py stop-eth
+
 start-cl:
 	python3 main.py start-cl
 
 update-cl:
 	python3 main.py update-cl
+
+stop-cl:
+	python3 main.py stop-cl
 
 test:
 	py.test tests -v
