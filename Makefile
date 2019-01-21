@@ -7,7 +7,7 @@ setup:
 clean:
 	python3 main.py clean
 
-pull-chainlink:
+pull-cl:
 	python3 main.py pull chainlink
 
 pull-geth:
@@ -22,6 +22,9 @@ restart-eth:
 stop-eth:
 	python3 main.py stop-eth
 
+logs-eth:
+	python3 main.py logs-eth
+
 start-cl:
 	python3 main.py start-cl
 
@@ -30,6 +33,12 @@ update-cl:
 
 stop-cl:
 	python3 main.py stop-cl
+
+logs-cl:
+	python3 main.py logs-cl
+
+logs:
+	python3 main.py logs
 
 test:
 	py.test tests -v

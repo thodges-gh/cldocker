@@ -16,8 +16,7 @@ Follow the link below for system-specific instructions
 Clone this repo and enter the directory:
 
 ```bash
-git clone https://github.com/thodges-gh/cldocker.git
-cd cldocker
+git clone https://github.com/thodges-gh/cldocker.git && cd cldocker
 ```
 
 Now run the following commands after entering the directory:
@@ -31,11 +30,86 @@ The setup script will display several prompts, each with a default value, and wi
 
 ## Interacting with the Node
 
-Navigate to http://localhost:6689/ to view the web interface. Use the same credentials that you entered in the setup script. If using a VPS, replace `localhost` with your instance's public IP.
+Navigate to https://localhost:6689/ to view the web interface. Use the same credentials that you entered in the setup script. If using a VPS, replace `localhost` with your instance's public IP. By default the node uses a self-signed certificate, so your browser may complain about that, simply add an exception (Firefox) or continue anyway (Chrome) to access the GUI.
 
-Take note of your ETH address (get it from the Configuration page of the UI), you will need to send some ether to it in order to pay for gas. You can also get this from the node's Configuration page.
+The first thing you should do once signed in is take note of your ETH address by going to the Configuration page of the UI, you will need to send some ether to it in order for the node to pay for gas.
 
-You can follow the logs of each container by first running `docker ps`, then `docker logs -f container_name`.
+You can follow the logs of all containers by running:
+
+```bash
+make logs
+```
+
+Or to just view the output of the Chainlink container(s):
+
+```bash
+make logs-cl
+```
+
+Or just the Ethereum container:
+
+```bash
+make logs-eth
+```
+
+## Starting and stopping
+
+After you have gone through the setup, you can use the following commands to maintain the containers.
+
+### Chainlink node
+
+To start a new Chainlink container instance:
+
+```bash
+make start-cl
+```
+
+To stop running Chainlink containers:
+
+```bash
+make stop-cl
+```
+
+To perform a rolling upgrade:
+- Pulls latest image
+- Starts a new container with the port incremented
+- Stops the old container
+
+```bash
+make update-cl
+```
+
+To pull the latest Chainlink image:
+
+```bash
+make pull-cl
+```
+
+### Ethereum client
+
+To restart the Ethereum client:
+
+```bash
+make restart-eth
+```
+
+To stop the Ethereum client:
+
+```bash
+make stop-eth
+```
+
+To pull the latest (stable) image for your Ethereum client:
+
+```bash
+make pull-geth
+```
+
+Or
+
+```bash
+make pull-parity
+```
 
 ## Resetting the environment file
 
