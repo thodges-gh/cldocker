@@ -7,7 +7,7 @@ setup:
 clean:
 	python3 main.py clean
 
-pull-chainlink:
+pull-cl:
 	python3 main.py pull chainlink
 
 pull-geth:
